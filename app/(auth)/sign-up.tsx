@@ -1,21 +1,37 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from "../../constants"
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { createUser } from '@/lib/appwrite'
+import { UserInterface } from '@/constants/types'
 const SignUp = () => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UserInterface>({
     userName:'',
     email: '',
     password: ''
   })
   const [loading, setLoading] = useState(false)
 
-  const submit = () => {
-    createUser()
+  const submit = async() => {
+    if(!form.email || !form.password || !form.userName){
+      Alert.alert('Error','Please fill all the fields')
+    }
+    
+    setLoading(true)
+    try {
+      const result = await createUser(form)
+      console.log(result)
+      //set result to global state
+
+      router.replace("/home")
+    } catch (error) {
+      Alert.alert("Error","Error while signing up")
+    } finally {
+      setLoading(false)
+    }
   }
   return (
     <SafeAreaView className='h-full bg-primary'>
@@ -29,8 +45,8 @@ const SignUp = () => {
           <Text className='text-2xl text-white font-psemibold mt-10'>Sign up to Aura</Text>
           <FormField
             title='Username'
-            value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            value={form.userName}
+            handleChangeText={(e) => setForm({ ...form, userName: e })}
             otherStyles='mt-10'
           />
           <FormField

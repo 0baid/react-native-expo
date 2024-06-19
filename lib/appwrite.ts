@@ -31,11 +31,12 @@ export const createUser = async ({email,password,userName} : UserInterface ) => 
             password,
             userName
         )
+        console.log(newAccount)
 
         if(!newAccount) throw Error
 
         const avatarURL = avatars.getInitials(userName)
-
+        console.log
         await signIn(email,password)
 
 
@@ -46,10 +47,11 @@ export const createUser = async ({email,password,userName} : UserInterface ) => 
             {
                 accountId:newAccount.$id,
                 email:email,
-                userName:userName,
+                username:userName,
                 avatar:avatarURL
             }
         )
+        console.log(newUser)
 
         return newUser
     } catch (error) {
