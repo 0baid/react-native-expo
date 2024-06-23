@@ -14,14 +14,14 @@ const Login = () => {
   })
   const [loading, setLoading] = useState(false)
 
-  const submit = () => {
+  const submit = async () => {
     if(!form.email || !form.password){
       Alert.alert('Error','Please fill all the fields')
     }
     
     setLoading(true)
     try {
-      const result =  signIn(form.email,form.password)
+      const result = await signIn(form.email,form.password)
       console.log( result )
       // save result to global state 
       
