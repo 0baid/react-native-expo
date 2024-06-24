@@ -1,17 +1,20 @@
 import { View, Text, FlatList, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
 import Search from '@/components/Search'
+import Trending from '@/components/Trending'
 const Home = () => {
+
+  const [searchTerm, setSearchTerm] = useState('')
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={[{$id:'1'}]}
-        keyExtractor={(item) => item.$id}
-        renderItem={(item) => {
-          return(
-            <Text className='text-3xl text-white'>{item.index}</Text>
+        data={[{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({item}) => {
+          return (
+            <Text className='text-3xl text-white'>{item.id}</Text>
           )
         }}
         ListHeaderComponent={() => (
@@ -22,20 +25,28 @@ const Home = () => {
                 <Text className='text-2xl font-psemibold text-white'>Obaid</Text>
               </View>
               <View className='mt-1.5'>
-                  <Image
-                    source={images.logoSmall}
-                    className='w-9 h-10'
-                    resizeMode='contain'
-                  />
-                </View>
+                <Image
+                  source={images.logoSmall}
+                  className='w-9 h-10'
+                  resizeMode='contain'
+                />
+              </View>
             </View>
-            <Search />
+            <Search
+              placeHolder='Search for a video topic'
+              value={searchTerm}
+              handleChangeText={(e) => setSearchTerm(e)}
+            />
             <View className='w-full flex-1 pt-5 pb-8'>
-                <Text className='text-grey-100 text-lg font-pregular mb-3'>
-                  Latest Videos
-                </Text>
+              <Text className='text-grey-100 text-lg font-pregular mb-3'>
+                Latest Videos
+              </Text>
+              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }] ?? []} />
             </View>
           </View>
+        )}
+        ListEmptyComponent={() => (
+          <Text className='text-3xl text-white'>Empty</Text>
         )}
       />
     </SafeAreaView>

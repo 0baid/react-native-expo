@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { icons } from '@/constants'
 
-interface FormFieldInterface {
-    title: string,
+interface SearchInterface {
     value: string,
     handleChangeText: (e: any) => void,
     otherStyles?: string,
@@ -12,7 +11,7 @@ interface FormFieldInterface {
     placeHolder?: string
 }
 
-const Search = ({ title, value, handleChangeText, otherStyles, placeHolder }: FormFieldInterface) => {
+const Search = ({ value, handleChangeText, otherStyles, placeHolder }: SearchInterface) => {
     const [showPassword, setShowPassword] = useState(false)
     return (
         <View className='w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-secondary items-center flex-row space-x-4'>
@@ -22,7 +21,6 @@ const Search = ({ title, value, handleChangeText, otherStyles, placeHolder }: Fo
                 placeholder={placeHolder}
                 placeholderTextColor={'#7b7b8b'}
                 onChangeText={handleChangeText}
-                secureTextEntry={title === 'Password' && !showPassword}
             />
             <TouchableOpacity>
                 <Image
